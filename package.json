@@ -1,0 +1,21 @@
+{
+  "name": "lens-index-service",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Indexing Lens Articles with ElasticSearch.",
+  "dependencies": {
+    "elasticsearch": "^3.0.0",
+    "express": "^4.10.2",
+    "lens-article": "git+https://github.com/elifesciences/lens-article.git#master",
+    "lens-converter": "git+https://github.com/elifesciences/lens-converter.git#master",
+    "request": "^2.48.0",
+    "substance-application": "git+https://github.com/substance/application.git#lens",
+    "substance-data": "git+https://github.com/substance/data.git#lens",
+    "substance-document": "git+https://github.com/substance/document.git#lens",
+    "substance-util": "git+https://github.com/substance/util.git#lens",
+    "underscore": "1.5.x",
+    "xmldom": "^0.1.19",
+    "xpath": "0.0.7",
+    "yargs": "^1.3.2"
+  },
+}
