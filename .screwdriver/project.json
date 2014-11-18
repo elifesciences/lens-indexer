@@ -29,6 +29,11 @@
       "repository": "https://github.com/elifesciences/lens-converter.git",
       "folder": "node_modules/lens-converter",
       "branch": "xmladapter"
+    },
+    {
+      "repository": "https://github.com/elifesciences/lens-indexer.git",
+      "folder": ".",
+      "branch": "master"
     }
   ]
 }
