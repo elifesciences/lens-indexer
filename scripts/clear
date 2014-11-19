@@ -1,0 +1,23 @@
+#!/usr/bin/env node
+"use strict";
+
+var argv = require("yargs")
+  .strict()
+  .usage("Deletes all indexes.")
+  .help('help')
+  .argv;
+
+var elasticsearch = require('elasticsearch');
+var getConfig = require('./get_config');
+
+var client = new elasticsearch.Client(getConfig());
+
+client.indices.delete({
+  index: ["articles", "content"],
+  ignore: [404]
+}, function(error, resp) {
+  if (error) {
+    console.error("Could not delete indexes:", error, resp);
+  }
+  client.close();
+});

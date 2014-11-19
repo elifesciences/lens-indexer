@@ -1,0 +1,32 @@
+#!/usr/bin/env node
+"use strict";
+
+var argv = require("yargs")
+  .strict()
+  .usage("Usage: add -i input.json", {
+    i: {
+        describe: 'specify input file',
+        alias: ('i','input')
+    },
+  })
+  .help('help')
+  .demand(['i'])
+  .argv;
+
+var path = require("path");
+var indexArticle = require('../src/index_article.js');
+
+var elasticsearch = require('elasticsearch');
+var getConfig = require('./get_config');
+var client = new elasticsearch.Client(getConfig());
+
+var inputFile = path.join(__dirname, "..", argv.i);
+
+indexArticle(client, inputFile)
+  .error(function() {
+    console.error("Failed.", arguments);
+  })
+  .done(function() {
+    console.log("Done.");
+    client.close();
+  });

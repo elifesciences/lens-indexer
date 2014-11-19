@@ -1,73 +1,82 @@
-var elasticsearch = require('elasticsearch');
-
-var argv = require("yargs")
-  .strict()
-  .usage("Usage: converter -i input.json", {
-    i: {
-        describe: 'specify input file',
-        alias: ('i','input')
-    },
-  })
-  .demand(['i'])
-  .argv;
-
 var fs = require("fs");
-var path = require("path");
 
-var inputFile = path.join(__dirname, "..", "data", "json", ""+argv.i);
-var articleData = fs.readFileSync(inputFile, "utf8");
-var article = JSON.parse(articleData);
+function indexArticle(client, inputFile) {
 
-var nodes = article.nodes;
-var content = nodes.content.nodes;
+  var articleData = fs.readFileSync(inputFile, "utf8");
+  var article = JSON.parse(articleData);
 
-debugger;
+  var nodes = article.nodes;
+  var nodeIds = nodes.content.nodes;
 
-for (var i = 0; i < content.length; i++) {
-  var id = content[i];
-  var node = nodes[id];
-
-  if (!node) {
-    console.error("Node not existing", id);
-    continue;
-  }
-
-  var type = node.type;
-  var textContent = null;
-
-  switch (type) {
-    case "paragraph":
-      var textNodeId = node.children[0];
-      var textNode = nodes[textNodeId];
-      if (textNode) {
-        textContent = textNode.content;
-      } else {
-        continue;
-      }
-      break;
-    case "heading":
-      textContent = node.content;
-      break;
-    default:
-      continue;
-  }
   var publicationInfo = nodes.publication_info;
   var doi = publicationInfo.doi;
   doi = doi.replace('http://dx.doi.org/', '');
-  var esId = doi + "/" + id;
-  var indexEntry = {
-    index: 'content',
-    type: type,
-    id: esId,
-    body: {
-      type: type,
-      content: textContent,
-      position: i
-    }
+
+  // record all entries and call ES later, so that we only index if everything goes well
+  var indexEntries = [];
+
+  // add the article as a whole
+  var articleEntry = {
+    index: 'articles',
+    type: 'json',
+    id: doi,
+    body: article
   };
-  console.log("Indexing ", indexEntry);
-  // client.index(
-  // }, function (error, response) {
-  //   console.log(error, response);
-  // });
+  indexEntries.push(articleEntry);
+
+  nodeIds.forEach(function(nodeId, pos) {
+    var node = nodes[nodeId];
+    if (!node) {
+      throw new Error("Corrupted article json. Node does not exist " + nodeId);
+    }
+    var type = node.type;
+    var plainText = null;
+    switch (type) {
+      case "paragraph":
+        var textNodeId = node.children[0];
+        var textNode = nodes[textNodeId];
+        if (textNode) {
+          plainText = textNode.content;
+        } else {
+          return;
+        }
+        break;
+      case "heading":
+        plainText = node.content;
+        break;
+      default:
+        return;
+    }
+    if (!plainText) {
+      return;
+    }
+    // Note: using the DOI as global unique id and the node's id as suffix
+    var entryId = doi + "/" + nodeId;
+    var nodeEntry = {
+      index: 'content',
+      type: type,
+      id: entryId,
+      body: {
+        id: nodeId,
+        type: type,
+        content: plainText,
+        document: doi,
+        position: pos
+      }
+    };
+    indexEntries.push(nodeEntry);
+  });
+
+  var promise = null;
+  indexEntries.forEach(function(entry) {
+    if (!promise) {
+      promise = client.index(entry);
+    } else {
+      promise.then(function() { return client.index(entry); });
+    }
+  });
+
+  return promise;
 }
+
+module.exports = indexArticle;
