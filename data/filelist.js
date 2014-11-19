@@ -1,4 +1,4 @@
-[
+module.exports = [
   "https://s3.amazonaws.com/elife-cdn/elife-articles/00003/elife00003.xml",
   "https://s3.amazonaws.com/elife-cdn/elife-articles/00005/elife00005.xml",
   "https://s3.amazonaws.com/elife-cdn/elife-articles/00007/elife00007.xml",

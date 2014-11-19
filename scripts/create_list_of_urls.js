@@ -7,7 +7,7 @@ var XmlAdapterForXmlDomXPath = require('../src/xml_adapter_xmldom_xpath');
 
 var URL_TEMPLATE = "https://s3.amazonaws.com/elife-cdn/elife-articles/$ID/elife$ID.xml";
 var validUrls = [];
-var outputFile = path.join(__dirname, "..", "data", "filelist.json");
+var outputFile = path.join(__dirname, "..", "data", "filelist.js");
 
 function extractDocumentIds(xmlData) {
   var xmlAdapter = new XmlAdapterForXmlDomXPath();
@@ -31,7 +31,7 @@ function extractDocumentIds(xmlData) {
     child = child.nextSibling;
   }
   console.log("Writing urls to %s", outputFile);
-  fs.writeFileSync(outputFile, JSON.stringify(validUrls, null, 2));
+  fs.writeFileSync(outputFile, "module.exports = " + JSON.stringify(validUrls, null, 2));
 }
 
 var bucketUrl = "https://s3.amazonaws.com/elife-cdn/";
