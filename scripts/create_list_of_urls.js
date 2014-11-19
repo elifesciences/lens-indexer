@@ -20,7 +20,7 @@ function extractDocumentIds(xmlData) {
     if (child.tagName === "Contents") {
       var keyEl = child.firstChild;
       var key = xmlAdapter.getText(keyEl);
-      var match = /^documents\/elife\/(\d+)\.js/.exec(key);
+      var match = /^documents\/elife\/(\d+)\.js$/.exec(key);
       if (match) {
         var id = match[1];
         console.log("###", id);
