@@ -21,7 +21,7 @@ var convert = require('../src/convert');
 
 function save(article) {
   var outFile = path.join(__dirname, "..", "data", "json", article.id + ".json");
-  console.info("Writing file", outFile);
+  console.info("... writing file", outFile);
   var data;
   if (argv.pretty) {
     data = JSON.stringify(article.toJSON(), null, 2);
@@ -38,7 +38,9 @@ if (/^http.:/.exec(argv.i)) {
       console.error("Could not load data from URL", url);
     } else {
       var xmlData = body;
-      save(convert(xmlData));
+      console.info("... converting");
+      var article = convert(xmlData);
+      save(article);
     }
   });
 } else {
@@ -47,6 +49,8 @@ if (/^http.:/.exec(argv.i)) {
     console.error("Input file not found.");
   } else {
     var xmlData = fs.readFileSync(inputFile, 'utf8');
-    save(convert(xmlData));
+    console.info("... converting");
+    var article = convert(xmlData);
+    save(article);
   }
 }

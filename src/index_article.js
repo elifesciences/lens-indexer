@@ -1,9 +1,5 @@
-var fs = require("fs");
 
-function indexArticle(client, inputFile) {
-
-  var articleData = fs.readFileSync(inputFile, "utf8");
-  var article = JSON.parse(articleData);
+function indexArticle(client, article) {
 
   var nodes = article.nodes;
   var nodeIds = nodes.content.nodes;
