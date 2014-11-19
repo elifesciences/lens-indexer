@@ -20,6 +20,30 @@ function indexArticle(client, article) {
   };
   indexEntries.push(articleEntry);
 
+  // TODO: continue here. We need to provide a good trade-off
+  // between structured and prerendered data. E.g., it would be good
+  // to prerender primitive annotations. Also we need to come up with a
+  // short intro text (it is hidden in a custom-meta tag atm and not extracted
+  // at all). The abstract is not available neither, as the converter does not
+  // preserve that semantics. Furthermore it would be necessary to 'configure'
+  // which facets should be considered (and potentially, how to extract them)
+  var shortData = {
+    "title": article.title,
+    "authors": [],
+    "intro": "", // prerendered html
+    // facets
+    "published_on": "2014-11-10",
+    "updated_at": "2014-11-18",
+    "article_type": "Research Article",
+    "subject": "Cell biology"
+  };
+  var shortEntry = {
+    index: 'short',
+    id: doi,
+    body: shortData
+  };
+  indexEntries.push(shortEntry);
+
   nodeIds.forEach(function(nodeId, pos) {
     var node = nodes[nodeId];
     if (!node) {
