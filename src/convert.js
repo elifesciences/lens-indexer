@@ -10,6 +10,7 @@ function convert(xmlData) {
     xmlAdapter: xmlAdapter
   });
   var article = converter.import(xmlData);
+  console.info("...finished conversion of", article.id);
   return article;
 }
 
