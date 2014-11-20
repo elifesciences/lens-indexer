@@ -11,7 +11,7 @@ var XmlAdapterXmlDomXpath = function() {
 
 XmlAdapterXmlDomXpath.Prototype = function() {
 
-  this.parseXML = function(xmlString) {
+  this.parseString = function(xmlString) {
     var parser = new DOMParser();
     var xmlDoc = parser.parseFromString(xmlString);
     return xmlDoc;
@@ -51,6 +51,14 @@ XmlAdapterXmlDomXpath.Prototype = function() {
 
   this.toString = function(el) {
     return el.toString();
+  };
+
+  this.getInnerHtml = function(el) {
+    var innerHTML = [];
+    for (var node = el.firstChild; node; node = node.nextSibling) {
+      innerHTML.push(node.toString());
+    }
+    return innerHTML.join('');
   };
 
   this.getText = function(el) {

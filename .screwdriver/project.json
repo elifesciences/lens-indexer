@@ -13,7 +13,7 @@
     {
       "repository": "https://github.com/substance/document.git",
       "folder": "node_modules/substance-document",
-      "branch": "lens"
+      "branch": "lens-next"
     },
     {
       "repository": "https://github.com/substance/util.git",
@@ -28,7 +28,7 @@
     {
       "repository": "https://github.com/elifesciences/lens-converter.git",
       "folder": "node_modules/lens-converter",
-      "branch": "xmladapter"
+      "branch": "lens-next"
     },
     {
       "repository": "https://github.com/elifesciences/lens-indexer.git",

@@ -11,7 +11,7 @@ var outputFile = path.join(__dirname, "..", "data", "filelist.js");
 
 function extractDocumentIds(xmlData) {
   var xmlAdapter = new XmlAdapterForXmlDomXPath();
-  var xmlDoc = xmlAdapter.parseXML(xmlData);
+  var xmlDoc = xmlAdapter.parseString(xmlData);
   // HACK: somehow xmldom+xpath has troubles to find something in that
   // doc... using hard-coded position.
   var resultEl = xmlDoc.childNodes[1];

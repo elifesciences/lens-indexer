@@ -51,6 +51,7 @@ function step() {
   });
 }
 
+console.info('Clearing indexes...');
 client.indices.delete({
   index: ["articles", "content"],
   ignore: [404]
