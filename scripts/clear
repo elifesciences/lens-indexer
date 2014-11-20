@@ -13,7 +13,7 @@ var getConfig = require('./get_config');
 var client = new elasticsearch.Client(getConfig());
 
 client.indices.delete({
-  index: ["articles", "content"],
+  index: ["articles"],
   ignore: [404]
 }, function(error, resp) {
   if (error) {

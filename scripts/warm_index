@@ -11,8 +11,8 @@ var client = new elasticsearch.Client(getConfig());
 
 var idx = 0;
 var count = 0;
-var MAX_COUNT = 10;
-var MAX_TRIES = 20;
+var MAX_COUNT = 1;
+var MAX_TRIES = 10;
 
 function step() {
   if (idx >= MAX_TRIES) {
