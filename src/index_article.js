@@ -1,10 +1,15 @@
 
+var _ = require('underscore');
+var XmlAdapterForXmlDomXPath = require('./xml_adapter_xmldom_xpath');
+
 function indexArticle(client, article) {
 
   var nodes = article.nodes;
   var nodeIds = nodes.content.nodes;
 
-  var publicationInfo = nodes.publication_info;
+  var documentNode = article.get('document');
+  var publicationInfo = article.get('publication_info');
+  // var abstract = article.get(documentNode.abstract);
   var doi = publicationInfo.doi;
   doi = doi.replace('http://dx.doi.org/', '');
 
@@ -27,42 +32,49 @@ function indexArticle(client, article) {
   // at all). The abstract is not available neither, as the converter does not
   // preserve that semantics. Furthermore it would be necessary to 'configure'
   // which facets should be considered (and potentially, how to extract them)
+  var xmlAdapter = new XmlAdapterForXmlDomXPath();
+  var htmlDocument = xmlAdapter.parseString('<html></html>');
   var shortData = {
-    "title": article.title,
-    "authors": [],
-    "intro": "", // prerendered html
+    "title": xmlAdapter.getInnerHtml(documentNode.propertyToHtml(htmlDocument, 'title')),
+    "authors": _.map(documentNode.getAuthors(), function(author) {
+      return author.name;
+    }),
+    "intro": "TODO: this should be a short intro which ATM is not extracted.", // prerendered html
     // facets
-    "published_on": "2014-11-10",
-    "updated_at": "2014-11-18",
-    "article_type": "Research Article",
-    "subject": "Cell biology"
+    "published_on": xmlAdapter.getInnerHtml(publicationInfo.propertyToHtml(htmlDocument, 'published_on')),
+    "article_type": publicationInfo.article_type || "",
+    "subjects": publicationInfo.subjects || [],
+    "organisms": publicationInfo.research_organisms || []
   };
+  htmlDocument = null;
+  xmlAdapter = null;
   var shortEntry = {
     index: 'short',
+    type: 'json',
     id: doi,
     body: shortData
   };
   indexEntries.push(shortEntry);
-
+  // console.log("#################");
+  // console.log("Short Entry:");
+  // console.log(shortEntry);
+  // console.log("#################");
   nodeIds.forEach(function(nodeId, pos) {
     var node = nodes[nodeId];
     if (!node) {
       throw new Error("Corrupted article json. Node does not exist " + nodeId);
     }
+    var xmlAdapter = new XmlAdapterForXmlDomXPath();
+    var htmlDocument = xmlAdapter.parseString('<html></html>');
+
     var type = node.type;
     var plainText = null;
+    var html = null;
     switch (type) {
       case "paragraph":
-        var textNodeId = node.children[0];
-        var textNode = nodes[textNodeId];
-        if (textNode) {
-          plainText = textNode.content;
-        } else {
-          return;
-        }
-        break;
       case "heading":
         plainText = node.content;
+        html = xmlAdapter.toString(node.toHtml(htmlDocument));
         break;
       default:
         return;
@@ -80,6 +92,7 @@ function indexArticle(client, article) {
         id: nodeId,
         type: type,
         content: plainText,
+        html: html || "<p>Error: could not render HTML for node "+nodeId+"</p>",
         document: doi,
         position: pos
       }
