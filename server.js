@@ -4,6 +4,12 @@ var express = require('express');
 var app = express();
 var queries = require('./src/queries');
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.get('/article/json/:id', function (req, res) {
   res.send('Asking for article json...');
 });
@@ -26,6 +32,10 @@ app.get('/search', function (req, res) {
 
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
+});
+
+app.post('/', function (req, res) {
+  res.send(404);
 });
 
 app.use(express.static(__dirname));
