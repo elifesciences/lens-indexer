@@ -102,15 +102,6 @@ a:hover {
   overflow: hidden;
 }
 
-#results {
-  position: fixed;
-  top: 60px;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-  overflow: hidden;
-}
-
 /* Search bar
 ---------------------------------
 */
@@ -146,29 +137,53 @@ a:hover {
 ---------------------------------
 */
 
-#documents .document {
+#result-list {
+  position: fixed;
+  top: 60px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  overflow: scroll;
+}
+
+#result-list .document {
   padding: 20px;
   position: relative;
   border-bottom: 1px solid #ddd;
 }
 
-#documents .document .title {
+#result-list .document .authors {
+  display: block;
+  padding-right: 100px;
+  font-size: 14px;
+  padding-bottom: 10px;
+}
+
+#result-list .document .authors .author {
+  padding-right: 10px;
+}
+
+#result-list .document .title {
   display: block;
   padding-right: 100px;
   font-size: 20px;
   padding-bottom: 10px;
 }
 
-#documents .document .intro {
+#result-list .document .intro {
   padding-top: 10px;
   font-style: italic;
   color: rgba(0,0,0,0.6);
 }
 
-#documents .document .toggle-preview {
+#result-list .document .toggle-preview {
   display: block;
   color: rgba(11, 157, 217, 1);
   position: absolute;
   top: 20px;
   right: 20px;
+}
+
+#result-list .document .score {
+  float:right;
 }

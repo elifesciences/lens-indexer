@@ -8,12 +8,11 @@ var argv = require("yargs")
   .argv;
 
 var elasticsearch = require('elasticsearch');
-var getConfig = require('./get_config');
-
-var client = new elasticsearch.Client(getConfig());
+var config = require('../config');
+var client = new elasticsearch.Client(config);
 
 client.indices.delete({
-  index: ["articles"],
+  index: ["*"],
   ignore: [404]
 }, function(error, resp) {
   if (error) {

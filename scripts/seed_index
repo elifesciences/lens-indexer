@@ -1,0 +1,103 @@
+#!/usr/bin/env node
+
+var request = require('request');
+var convert = require('../src/convert');
+var listOfUrls = require('../data/filelist');
+var elasticsearch = require('elasticsearch');
+var config = require('../config');
+var indexArticle = require('../src/index_article');
+
+var client = new elasticsearch.Client(config);
+
+var idx = 0;
+var count = 0;
+var MAX_COUNT = 50;
+
+function step() {
+  if (idx >= listOfUrls.length) {
+    console.error("Done.");
+    client.close();
+    return;
+  } else if (count >= MAX_COUNT) {
+    console.info("Finished successfully.");
+    client.close();
+    return;
+  }
+
+  var url = listOfUrls[idx++];
+  console.log("Processing %s...", url);
+  request(url, function (error, response, body) {
+
+    if (error || response.statusCode != 200) {
+      console.error("... could not load data.");
+      step();
+    } else {
+      var xmlData = body;
+      console.info("... converting");
+      var article = convert(xmlData);
+      console.info("... indexing");
+      indexArticle(client, article)
+      .error(function() {
+        console.info("... failed.");
+        step();
+      })
+      .done(function() {
+        console.info("... done.");
+        count++;
+        step();
+      });
+    }
+  });
+}
+
+console.info('Clearing indexes...');
+client.indices.delete({
+  index: ["*"],
+  ignore: [404]
+}).then(function() {
+  console.info('Initializing index...');
+  return client.indices.create({
+    'index': 'articles',
+    'body': {
+      "settings": {
+        "analysis": {
+          "filter": {
+            "trigrams_filter": {
+              "type": "ngram",
+              "min_gram": 3,
+              "max_gram": 3
+            }
+          },
+          "analyzer": {
+            "trigrams": {
+              "type":      "custom",
+              "tokenizer": "standard",
+              "filter":   [
+                "lowercase",
+                "trigrams_filter"
+              ]
+            }
+          }
+        }
+      },
+      "mappings": {
+        "article": {},
+        "fragment": {
+          "_parent": {"type": "article"},
+          "properties": {
+            "content": {
+              "type":     "string",
+              "analyzer": "trigrams"
+            }
+          }
+        }
+      }
+    }
+  });
+}).error(function(error, resp) {
+  console.error("Client error:", error, resp);
+  client.close();
+})
+.done(function() {
+  step();
+});

@@ -18,8 +18,8 @@ var path = require("path");
 var indexArticle = require('../src/index_article.js');
 
 var elasticsearch = require('elasticsearch');
-var getConfig = require('./get_config');
-var client = new elasticsearch.Client(getConfig());
+var config = require('../config');
+var client = new elasticsearch.Client(config);
 
 var inputFile = path.join(__dirname, "..", argv.i);
 var articleData = fs.readFileSync(inputFile, "utf8");

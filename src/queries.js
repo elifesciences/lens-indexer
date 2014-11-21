@@ -1,28 +1,57 @@
 
 var elasticsearch = require('elasticsearch');
 var config = require("../config");
+var client = new elasticsearch.Client(config);
 
 var queries = {};
 
 queries.findDocumentsWithContent = function(query, cb) {
-  var client = new elasticsearch.Client(config);
   var searchString = query.searchString;
   client.search({
-    index: 'content',
+    index: 'articles',
+    type: 'article',
     body: {
-      query: {
-        match: {
-          content: searchString
+      "query": {
+        "bool": {
+          "should": [{
+            "has_child": {
+              "type": "fragment",
+              "score_mode" : "sum",
+              "query": {
+                "filtered": {
+                  "query": {
+                    "match": {
+                      "content": {
+                        "query": searchString,
+                        "minimum_should_match": "99%"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "match": {
+              "title": {
+                "query": searchString,
+                "boost": 100.0
+              }
+            }
+          }]
         }
       }
     }
   }).then(function (body) {
-    console.log('######', body, body.hits);
     var hits = body.hits.hits;
-    var result = {};
+    console.log(body);
+    var result = [];
     for (var i = 0; i < hits.length; i++) {
       var hit = hits[i];
-      console.log("Hit: " + hit);
+      // console.log(JSON.stringify(hit));
+      hit._source.id = hit._id;
+      hit._source.score = hit._score;
+      result.push(hit._source);
     }
     cb(null, result);
   }, function (error) {

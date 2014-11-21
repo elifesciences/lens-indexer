@@ -49,8 +49,8 @@ function indexArticle(client, article) {
   htmlDocument = null;
   xmlAdapter = null;
   var shortEntry = {
-    index: 'short',
-    type: 'json',
+    index: 'articles',
+    type: 'article',
     id: doi,
     body: shortData
   };
@@ -85,8 +85,9 @@ function indexArticle(client, article) {
     // Note: using the DOI as global unique id and the node's id as suffix
     var entryId = doi + "/" + nodeId;
     var nodeEntry = {
-      index: 'content',
-      type: type,
+      index: 'articles',
+      type: 'fragment',
+      parent: doi,
       id: entryId,
       body: {
         id: nodeId,
