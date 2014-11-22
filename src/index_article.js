@@ -41,7 +41,7 @@ function indexArticle(client, article) {
     }),
     "intro": "TODO: this should be a short intro which ATM is not extracted.", // prerendered html
     // facets
-    "published_on": xmlAdapter.getInnerHtml(publicationInfo.propertyToHtml(htmlDocument, 'published_on')),
+    "published_on": publicationInfo.published_on,
     "article_type": publicationInfo.article_type || "",
     "subjects": publicationInfo.subjects || [],
     "organisms": publicationInfo.research_organisms || []

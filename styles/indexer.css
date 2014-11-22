@@ -187,3 +187,7 @@ a:hover {
 #result-list .document .score {
   float:right;
 }
+
+#result-list .document .query-string {
+  text-decoration: underline;
+}
