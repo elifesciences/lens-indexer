@@ -113,7 +113,7 @@ a:hover {
   margin-left: 20px;
   margin-top: 15px;
   height: 30px;
-  width: 300px;
+  width: 50%;
   padding: 0 10px;
   font-size: 18px;
 }
@@ -136,14 +136,35 @@ a:hover {
 /* Documents result list
 ---------------------------------
 */
-
-#result-list {
+#result {
   position: fixed;
+  height:100%;
   top: 60px;
   bottom: 0px;
   left: 0px;
   right: 0px;
-  overflow: scroll;
+  bottom: 0px;
+}
+
+
+#result-list {
+  position: absolute;
+  width: 60%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+#document-preview {
+  position: absolute;
+  width: 40%;
+  height: 100%;
+  top: 0px;
+  right: 0px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 #result-list .document {
@@ -186,6 +207,13 @@ a:hover {
 
 #result-list .document .score {
   float:right;
+}
+
+#result-list .document a.show-preview {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  cursor: pointer;
 }
 
 #result-list .document .query-string {

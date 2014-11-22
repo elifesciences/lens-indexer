@@ -7,14 +7,26 @@ var SearchHandler = function($container) {
   this.$searchField = this.$searchBar.find('.search-field');
   this.$searchButton = this.$searchBar.find('.search-button');
   this.$searchButton.click(this.onClick.bind(this));
+  this.$searchField.keydown(this.onEnter.bind(this));
+
   this.$resultList = $container.find('#result-list');
 };
 SearchHandler.Prototype = function() {
+
   this.onClick = function(e) {
     e.preventDefault();
     e.stopPropagation();
     this.search();
   };
+
+  this.onEnter = function(e) {
+    if(e.keyCode == 13) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.search();
+    }
+  };
+
   this.search = function() {
     var self = this;
     var searchString = this.$searchField.val();
@@ -33,6 +45,7 @@ SearchHandler.Prototype = function() {
       this.$resultList.empty();
     }
   };
+
   this.renderResult = function(result) {
     var $list =  $(window.document.createDocumentFragment());
     result.forEach(function(entry) {
@@ -65,12 +78,24 @@ SearchHandler.Prototype = function() {
         $entry.append($organisms);
       }
 
-      $entry.append($('<div>').addClass('score').text(entry.score));
+      $entry.append($('<div>').addClass('score').text("Relevance: " + entry.score));
+
+      var $previewButton = $("<a>").addClass('show-preview').text('Show Preview');
+      $previewButton.click(this.showPreview.bind(this, entry.id));
+      $entry.append($previewButton);
+
 
       $list.append($entry);
-    });
+    }, this);
     this.$resultList.empty();
     this.$resultList.append($list);
+  };
+
+  this.showPreview = function(documentId, event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    console.log("TODO: show preview for document", documentId);
   };
 };
 SearchHandler.prototype = new SearchHandler.Prototype();
