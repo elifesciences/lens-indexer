@@ -91,11 +91,10 @@ a:hover {
 */
 
 #searchbar {
-  position: fixed;
+  position: absolute;
   top: 0px;
   left: 0px;
   right: 0px;
-
   background: #eee;
   border-bottom: 1px solid #ddd;
   height: 60px;
@@ -137,8 +136,7 @@ a:hover {
 ---------------------------------
 */
 #result {
-  position: fixed;
-  height:100%;
+  position: absolute;
   top: 60px;
   bottom: 0px;
   left: 0px;
@@ -163,6 +161,9 @@ a:hover {
   height: 100%;
   top: 0px;
   right: 0px;
+  padding-left: 20px;
+  padding-top: 20px;
+  padding-bottom: 50px;
   overflow-y: scroll;
   overflow-x: hidden;
 }
@@ -173,25 +174,33 @@ a:hover {
   border-bottom: 1px solid #ddd;
 }
 
-#result-list .document .authors {
+#result-list .document.selected {
+  background-color: rgba(120,255,255,0.2);
+}
+
+#result-list .document .authors,
+#document-preview .authors {
   display: block;
   padding-right: 100px;
   font-size: 14px;
   padding-bottom: 10px;
 }
 
-#result-list .document .authors .author {
+#result-list .document .authors .author,
+#document-preview .authors .author {
   padding-right: 10px;
 }
 
-#result-list .document .title {
+#result-list .document .title,
+#document-preview .title {
   display: block;
   padding-right: 100px;
   font-size: 20px;
   padding-bottom: 10px;
 }
 
-#result-list .document .intro {
+#result-list .document .intro,
+#document-preview .abstract {
   padding-top: 10px;
   font-style: italic;
   color: rgba(0,0,0,0.6);
@@ -212,10 +221,59 @@ a:hover {
 #result-list .document a.show-preview {
   position: absolute;
   top: 5px;
-  right: 10px;
+  right: 20px;
   cursor: pointer;
 }
 
 #result-list .document .query-string {
   text-decoration: underline;
+}
+
+#document-preview .title {
+  font-weight: bold;
+}
+
+#document-preview .fragments-header {
+  font-size: 18px;
+}
+
+#document-preview .fragments {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+#document-preview .fragments > * {
+  padding-top: 10px;
+}
+
+#document-preview .fragments > .skip:before {
+  content:"...";
+}
+
+#document-preview .fragments > h1 {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#document-preview .fragments > h2 {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#document-preview .fragments > h3 {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+#document-preview .fragments > h4 {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+#document-preview .fragments > p {
+  font-size: 14px;
+}
+
+#document-preview .fragments .query-string {
+  background-color: rgba(150,150,150,0.2);
 }

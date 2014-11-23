@@ -23,7 +23,7 @@ app.get('/search', function (req, res) {
 });
 
 app.get('/search/document/', function (req, res) {
-  queries.findDocumentFragmentsWithContent({
+  queries.getDocumentPreview({
     documentId: req.query.documentId,
     searchString: req.query.searchString
   }, function(error, result) {

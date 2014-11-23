@@ -68,18 +68,16 @@ function indexArticle(client, article) {
     var htmlDocument = xmlAdapter.parseString('<html></html>');
 
     var type = node.type;
-    var plainText = null;
-    var html = null;
+    var content = null;
     switch (type) {
       case "paragraph":
       case "heading":
-        plainText = node.content;
-        html = xmlAdapter.toString(node.toHtml(htmlDocument));
+        content = xmlAdapter.toString(node.toHtml(htmlDocument));
         break;
       default:
         return;
     }
-    if (!plainText) {
+    if (!content) {
       return;
     }
     // Note: using the DOI as global unique id and the node's id as suffix
@@ -92,9 +90,7 @@ function indexArticle(client, article) {
       body: {
         id: nodeId,
         type: type,
-        content: plainText,
-        html: html || "<p>Error: could not render HTML for node "+nodeId+"</p>",
-        document: doi,
+        content: content,
         position: pos
       }
     };
