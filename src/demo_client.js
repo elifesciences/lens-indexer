@@ -14,7 +14,7 @@ var SearchHandler = function($container) {
   this.$selectedDocument = null;
 
   // TODO: remove this after initial testing
-  this.$searchField.val("novel");
+  this.$searchField.val("cancer mice");
   this.$searchButton.click();
 };
 SearchHandler.Prototype = function() {
