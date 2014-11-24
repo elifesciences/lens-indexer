@@ -1,6 +1,10 @@
 
 # Lens Indexer
 
+The Lens-Indexer represents a lookup service for Lens articles, built on top of an ElasticSearch index, and provides full-text search on artilc meta data (title, abstract, authors, keywords, etc.) as well as the content of article fragments.
+
+> NOTE: this is work in progress and not yet feature complete.
+
 ## Demo Service
 
 A demo instance of the service is running on https://quiet-retreat-3872.herokuapp.com/. It uses an ElasticSearch instance running on https://7zepvxjw:sqnl0xez3nmesypj@rowan-7428284.us-east-1.bonsai.io.
