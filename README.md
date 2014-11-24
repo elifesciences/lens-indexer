@@ -55,7 +55,7 @@ The index has the following structure
 }
 ```
 
-> Note: there is one index called `articles` having two types of entities, `article` and `fragment`, while `fragment`s are modelled as children of an `article`.
+> Note: there is one index called `articles` having two types of entities, `article` and `fragment`, where a `fragment` is modelled as a child of an `article`.
 
 
 It is possible to query the index directly using `curl`, such as:
