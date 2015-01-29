@@ -77,14 +77,4 @@ curl https://7zepvxjw:sqnl0xez3nmesypj@rowan-7428284.us-east-1.bonsai.io/article
 
 ## Local Installation
 
-### Elastic Search
-
-Linux:
-
-Worked for me out of the box. I.e., just downloaded the binaries from http://www.elasticsearch.org/overview/elkdownloads/.
-
-OSX:
-
-1. Download and Install the JRE *and* *JDK* from http://www.oracle.com/technetwork/java/javase/downloads (Get the `.dmg`)
-
-2. brew update & brew install elasticsearch
+We use a Vagrant setup for installing for pulling up a virtual machine ( see `Vagrantfile`), however you can also study the `provision.sh` file to use a custom setup.
