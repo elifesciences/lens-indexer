@@ -81,7 +81,8 @@ client.indices.delete({
            "title": { "type": "string", "index" : "analyzed", "analyzer": "html_content", "search_analyzer": 'snowball', "language": "English" },
            "intro": { "type": "string", "index" : "analyzed", "analyzer": "html_content", "search_analyzer": 'snowball', "language": "English" },
            // authors for exact full-text search (no partial matches)
-           "authors": { "type": "string", "index" : "analyzed", "analyzer": "standard" },
+           // "authors": { "type": "string", "index" : "analyzed", "analyzer": "standard" },
+           "authors": { "type": "string", "index" : "not_analyzed"},
            // The rest are facets which are used for strict match queries or filtering only
            "published_on": { "type": "string", "index" : "not_analyzed"},
            "article_type": { "type": "string", "index" : "not_analyzed"},

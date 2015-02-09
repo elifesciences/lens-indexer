@@ -1,31 +1,76 @@
 var elasticsearch = require('elasticsearch');
 
 var client = new elasticsearch.Client({
-  host: 'localhost:9200',
+  host: 'http://192.168.33.10:9200',
   log: 'trace'
 });
+
+var searchString = "vivo";
 
 client.search({
   index: 'articles',
   type: 'article',
   body: {
     "query": {
-      "has_child": {
-        "type": "fragment",
+      "filtered": {
         "query": {
-          "filtered": {
-            "query": {
-              "match": {
-                "content": {
-                  "query": "antimib",
-                  "minimum_should_match": "90%"
+          "bool": {
+            "should": [
+              { "has_child": {
+                  "type": "fragment",
+                  "score_mode" : "sum",
+                  "query": {
+                    "filtered": {
+                      "query": {
+                        "match": {
+                          "content": { "query": searchString, "minimum_should_match": "75%" }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "match": {
+                  "title": { "query": searchString, "minimum_should_match": "75%", "boost": 3.0 }
+                }
+              },
+              {
+                "match": {
+                  "intro": { "query": searchString, "minimum_should_match": "75%", "boost": 2.0 }
                 }
               }
-            }
+            ]
+          }
+        },
+        "filter": {
+          "bool": {
+            "must": [
+              // {"terms": {"subjects" : ["Neuroscience"]} },
+              // {"terms": {"authors" : ["Verena Pawlak"]} }
+              // {"terms": {"article_type" : ["Research advance"]} }
+            ]
           }
         }
       }
-    }
+    },
+    // "query": {
+    //   "has_child": {
+    //     "type": "fragment",
+    //     "query": {
+    //       "filtered": {
+    //         "query": {
+    //           "match": {
+    //             "content": {
+    //               "query": "antimib",
+    //               "minimum_should_match": "90%"
+    //             }
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
   }
 }, function (error, response) {
   console.log(error, response);
