@@ -8,46 +8,92 @@ var queries = {};
 
 queries.findDocumentsWithContent = function(query, cb) {
   var searchString = query.searchString;
-  client.search({
-    index: 'articles',
-    type: 'article',
-    body: {
-      "query": {
-        "bool": {
-          "should": [
-            { "has_child": {
-                "type": "fragment",
-                "score_mode" : "sum",
-                "query": {
-                  "filtered": {
-                    "query": {
-                      "match": {
-                        "content": { "query": searchString, "minimum_should_match": "75%" }
-                      }
+
+  // Supported filters
+  var subjects = query.subjects;
+  var articleTypes = query.article_type;
+  var organisms = query.research_organisms;
+  var authors = query.authors;
+
+  var filters = [];
+
+  if (subjects) {
+    filters.push({"terms": {"subjects" : subjects.split(",")} });
+  }
+
+  if (articleTypes) {
+    filters.push({"terms": {"article_type" : articleTypes.split(",")}});
+  }
+
+  if (organisms) {
+    filters.push({"terms": {"research_organisms" : organisms.split(",")} });
+  }
+
+  if (authors) {
+    filters.push({"terms": {"authors" : authors.split(",")} });
+  }
+
+  // Match all search query
+  var searchQuery = { "match_all" : {}};
+
+  if (searchString) {
+    searchQuery = {
+      "bool": {
+        "should": [
+          { "has_child": {
+              "type": "fragment",
+              "score_mode" : "sum",
+              "query": {
+                "filtered": {
+                  "query": {
+                    "match": {
+                      "content": { "query": searchString, "minimum_should_match": "75%" }
                     }
                   }
                 }
               }
-            },
-            {
-              "match": {
-                "title": { "query": searchString, "minimum_should_match": "75%", "boost": 3.0 }
-              }
-            },
-            {
-              "match": {
-                "intro": { "query": searchString, "minimum_should_match": "75%", "boost": 2.0 }
-              }
             }
-          ]
-        }
-      },
-      "highlight": {
-        "pre_tags" : ['<span class="query-string">'], "post_tags" : ["</span>"],
-        "fields": {
-          // NOTE: "number_of_fragments" : 0 is necessary to suppress lucene's automatic truncation of fragments
-          "title": { "number_of_fragments" : 0 },
-          "intro": { "number_of_fragments" : 0 }
+          },
+          {
+            "match": {
+              "title": { "query": searchString, "minimum_should_match": "75%", "boost": 3.0 }
+            }
+          },
+          {
+            "match": {
+              "intro": { "query": searchString, "minimum_should_match": "75%", "boost": 2.0 }
+            }
+          }
+        ]
+      }
+    };
+  }
+
+
+  console.log('query with filters', filters);
+
+  client.search({
+    index: 'articles',
+    type: 'article',
+    body: {
+      "size": 30,
+      "query": {
+        "filtered": {
+          "query": searchQuery,
+          "filter": {
+            "bool": {
+              "must": filters
+            }
+          },
+          // highlight can not be combined with a filtered query
+          // "highlight": {
+          //   "pre_tags" : ['<span class="query-string">'], "post_tags" : ["</span>"],
+          //   "fields": {
+          //     // NOTE: "number_of_fragments" : 0 is necessary to suppress lucene's automatic truncation of fragments
+          //     "title": { "number_of_fragments" : 0 },
+          //     "intro": { "number_of_fragments" : 0 }
+          //   }
+          // }
         }
       }
     }

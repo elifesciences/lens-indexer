@@ -1,7 +1,7 @@
 var elasticsearch = require('elasticsearch');
 
 var client = new elasticsearch.Client({
-  host: 'http://192.168.33.10:9200',
+  host: 'https://7zepvxjw:sqnl0xez3nmesypj@rowan-7428284.us-east-1.bonsai.io',
   log: 'trace'
 });
 
@@ -46,7 +46,7 @@ client.search({
         "filter": {
           "bool": {
             "must": [
-              // {"terms": {"subjects" : ["Neuroscience"]} },
+              {"terms": {"subjects" : ["Neuroscience"]} },
               // {"terms": {"authors" : ["Verena Pawlak"]} }
               // {"terms": {"article_type" : ["Research advance"]} }
             ]

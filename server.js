@@ -13,9 +13,7 @@ app.use(function(req, res, next) {
 });
 
 app.get('/search', function (req, res) {
-  queries.findDocumentsWithContent({
-    searchString: req.query.searchString
-  }, function(error, result) {
+  queries.findDocumentsWithContent(req.query, function(error, result) {
     if (error) {
       res.send('500', error.message);
     } else {
