@@ -77,6 +77,10 @@ queries.findDocumentsWithContent = function(query, cb) {
     type: 'article',
     body: {
       "size": 30,
+      "sort": [
+        { "published_on":   { "order": "desc" }},
+        // { "_score": { "order": "desc" }}
+      ],
       "query": {
         "filtered": {
           "query": searchQuery,
