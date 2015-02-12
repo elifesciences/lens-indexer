@@ -3,36 +3,22 @@ var _ = require('underscore');
 var elasticsearch = require('elasticsearch');
 var config = require("../config");
 var client = new elasticsearch.Client(config);
-
 var queries = {};
 
 queries.findDocumentsWithContent = function(query, cb) {
-  var searchString = query.searchString;
-
-  // Supported filters
-  var subjects = query.subjects;
-  var articleTypes = query.article_type;
-  var organisms = query.research_organisms;
-  var authors = query.authors;
+  var searchString = query.searchQuery.searchStr;
+  var searchQuery = JSON.parse(query.searchQuery);
 
   var filters = [];
 
-  if (subjects) {
-    filters.push({"terms": {"subjects" : subjects.split(",")} });
-  }
-
-  if (articleTypes) {
-    filters.push({"terms": {"article_type" : articleTypes.split(",")}});
-  }
-
-  if (organisms) {
-    filters.push({"terms": {"research_organisms" : organisms.split(",")} });
-  }
-
-  if (authors) {
-    filters.push({"terms": {"authors" : authors.split(",")} });
-  }
-
+  _.each(searchQuery.filters, function(filterValues, filterFacet) {
+    var f = {"terms": {} };
+    f.terms[filterFacet] = filterValues;
+    if (filterValues.length > 0) {
+      filters.push(f);
+    }
+  });
+  
   // Match all search query
   var searchQuery = { "match_all" : {}};
 
