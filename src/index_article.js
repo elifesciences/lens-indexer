@@ -60,7 +60,7 @@ function indexArticle(client, article) {
   // console.log(shortEntry);
   // console.log("#################");
   nodeIds.forEach(function(nodeId, pos) {
-    var node = nodes[nodeId];
+    var node = article.get(nodeId);
     if (!node) {
       throw new Error("Corrupted article json. Node does not exist " + nodeId);
     }
