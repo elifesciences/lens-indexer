@@ -9,6 +9,7 @@ module.exports = [
   "https://s3.amazonaws.com/elife-cdn/elife-articles/00036/elife00036.xml",
   "https://s3.amazonaws.com/elife-cdn/elife-articles/00047/elife00047.xml",
   "https://s3.amazonaws.com/elife-cdn/elife-articles/00048/elife00048.xml",
+/*
   "https://s3.amazonaws.com/elife-cdn/elife-articles/00049/elife00049.xml",
   "https://s3.amazonaws.com/elife-cdn/elife-articles/00051/elife00051.xml",
   "https://s3.amazonaws.com/elife-cdn/elife-articles/00065/elife00065.xml",
@@ -385,4 +386,5 @@ module.exports = [
   "https://s3.amazonaws.com/elife-cdn/elife-articles/01557/elife01557.xml",
   "https://s3.amazonaws.com/elife-cdn/elife-articles/01561/elife01561.xml",
   "https://s3.amazonaws.com/elife-cdn/elife-articles/01566/elife01566.xml"
+*/
 ]
