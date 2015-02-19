@@ -2,7 +2,9 @@
 
 var seedIndex = require('../src/seed_index');
 
-seedIndex(function(err) {
+var MAX_COUNT = process.argv[2];
+
+seedIndex( { MAX_COUNT: MAX_COUNT }, function(err) {
   if (err) {
     console.error(err);
   } else {
