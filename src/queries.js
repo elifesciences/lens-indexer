@@ -64,8 +64,8 @@ queries.findDocumentsWithContent = function(query, cb) {
     body: {
       "size": 30,
       "sort": [
-        { "published_on":   { "order": "desc" }},
-        // { "_score": { "order": "desc" }}
+        // { "published_on":   { "order": "desc" }},
+        { "_score": { "order": "desc" }}
       ],
       "query": {
         "filtered": {
