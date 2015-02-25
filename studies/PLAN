@@ -1,0 +1,30 @@
+
+- filtered queries
+  - filter -> score: fuzzy-and'ing?
+  - highlighting and filtering?
+
+- total number articles for a query
+  - [ok] comes with every query on 'articles' index
+
+- total number of fragments per article
+  - ATM number of fragments goes into score
+  - Can these be counted?
+
+- global facets:
+  - queried once per session to fill facet browsing UI
+    {
+        "aggs" : {
+            "genders" : {
+                "terms" : { "field" : "gender" }
+            }
+        }
+    }
+
+  - can facets be ranked? E.g. the 100 most relevant authors
+    ... By default, the terms aggregation will return the buckets for the top ten terms ordered by the doc_count. One can change this default behaviour by setting the size parameter.
+    http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/search-aggregations-bucket-terms-aggregation.html#_size
+
+- result facets:
+  - number of facets within result (e.g. 215 Bio-Chemistry)
+
+  - maybe combine query and aggregations?
