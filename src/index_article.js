@@ -44,7 +44,8 @@ function indexArticle(client, article) {
     "published_on": publicationInfo.published_on,
     "article_type": publicationInfo.article_type || "",
     "subjects": publicationInfo.subjects || [],
-    "organisms": publicationInfo.research_organisms || []
+    "organisms": publicationInfo.research_organisms || [],
+    "keywords": publicationInfo.keywords || []
   };
   htmlDocument = null;
   xmlAdapter = null;
