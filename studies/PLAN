@@ -1,7 +1,9 @@
 
 - filtered queries
   - filter -> score: fuzzy-and'ing?
+
   - highlighting and filtering?
+    -> that works just out of the box (when the query JSON is valid)
 
 - total number articles for a query
   - [ok] comes with every query on 'articles' index
