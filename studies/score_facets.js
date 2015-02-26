@@ -10,6 +10,8 @@ console.log('# Searching for: %s', searchString);
 client.search({
   index: 'articles',
   type: 'article',
+  explain: true,
+  yaml: true,
   body: {
     "size": 30,
     "sort": [
@@ -28,24 +30,26 @@ client.search({
                       "content": { "query": searchString, "minimum_should_match": "75%" }
                     }
                   }
-                }
+                },
               },
               {
                 "match": {
                   "title": { "query": searchString, "minimum_should_match": "75%", "boost": 3.0 }
                 }
-              }
-            ]
-          }
-        },
-        "filter": {
-          "bool": {
-            "should": [
+              },
               { "term": { "subjects": "Biochemistry" }},
               { "term": { "subjects": "Cell bioligy" }}
             ]
           }
-        }
+        },
+        // "filter": {
+        //   "bool": {
+        //     "should": [
+        //       { "term": { "subjects": "Biochemistry" }},
+        //       { "term": { "subjects": "Cell bioligy" }}
+        //     ]
+        //   }
+        // }
       }
     },
     // highlight can not be combined with a filtered query

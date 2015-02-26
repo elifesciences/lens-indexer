@@ -10,43 +10,30 @@ console.log('# Searching for: %s', searchString);
 client.search({
   index: 'articles',
   type: 'article',
-  explain: true,
   body: {
     "size": 30,
     "sort": [
       { "_score": { "order": "desc" } }
     ],
     "query": {
-      "filtered": {
-        "query": {
-          "bool": {
-            "should": [
-              { "has_child": {
-                  "type": "fragment",
-                  "score_mode" : "sum",
-                  "query": {
-                    "match": {
-                      "content": { "query": searchString, "minimum_should_match": "75%" }
-                    }
-                  }
-                }
-              },
-              {
+      "bool": {
+        "should": [
+          { "has_child": {
+              "type": "fragment",
+              "score_mode" : "sum",
+              "query": {
                 "match": {
-                  "title": { "query": searchString, "minimum_should_match": "75%", "boost": 3.0 }
+                  "content": { "query": searchString, "minimum_should_match": "75%" }
                 }
               }
-            ]
+            }
+          },
+          {
+            "match": {
+              "title": { "query": searchString, "minimum_should_match": "75%", "boost": 3.0 }
+            }
           }
-        },
-        "filter": {
-          "bool": {
-            "should": [
-              { "term": { "subjects": "Biochemistry" }},
-              { "term": { "subjects": "Cell bioligy" }}
-            ]
-          }
-        }
+        ]
       }
     },
     // highlight can not be combined with a filtered query
@@ -56,6 +43,20 @@ client.search({
         // NOTE: "number_of_fragments" : 0 is necessary to suppress lucene's automatic truncation of fragments
         "title": { "number_of_fragments" : 0 },
         "intro": { "number_of_fragments" : 0 }
+      }
+    },
+    "aggs": {
+      "types": {
+        "terms" : { "field" : "article_type" }
+      },
+      "subjects" : {
+        "terms" : { "field" : "subjects" }
+      },
+      "keywords" : {
+        "terms" : { "field" : "keywords" }
+      },
+      "organisms": {
+        "terms" : { "field" : "organisms" }
       }
     }
   }
