@@ -1,6 +1,9 @@
 
 - filtered queries
   - filter -> score: fuzzy-and'ing?
+  - filters: should be used as 'should' filters, then they are still very
+    and'ish, as 'must' filters the results are reduced too quickly
+    (-> why not show more but bring the most relevant to the first page)
 
   - highlighting and filtering?
     -> that works just out of the box (when the query JSON is valid)
@@ -11,10 +14,12 @@
 - total number of fragments per article
   - ATM number of fragments goes into score
   - Can these be counted?
+    Difficult! This feature is coming with ES 1.5
 
 - global facets:
   - queried once per session to fill facet browsing UI
     {
+        "query": { match_all: true },
         "aggs" : {
             "genders" : {
                 "terms" : { "field" : "gender" }
@@ -26,7 +31,9 @@
     ... By default, the terms aggregation will return the buckets for the top ten terms ordered by the doc_count. One can change this default behaviour by setting the size parameter.
     http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/search-aggregations-bucket-terms-aggregation.html#_size
 
+    aggregations are always ranked, and can be cut off using 'size'
+
 - result facets:
   - number of facets within result (e.g. 215 Bio-Chemistry)
 
-  - maybe combine query and aggregations?
+  works exactly as one would hope. Just apply aggs on a query...
