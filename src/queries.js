@@ -2,7 +2,7 @@
 var _ = require('underscore');
 var elasticsearch = require('elasticsearch');
 var config = require("../config");
-var client = new elasticsearch.Client(config);
+var client = new elasticsearch.Client(_.clone(config));
 var queries = {};
 
 var searchArticles = require("./search_articles");

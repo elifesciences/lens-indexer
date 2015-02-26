@@ -3,7 +3,7 @@ var config = require('../config');
 var _ = require('underscore');
 
 var searchArticles = function(options, cb) {
-  var client = new elasticsearch.Client(Object.create(config));
+  var client = new elasticsearch.Client(_.clone(config));
 
   function _query(searchString) {
     // either
