@@ -3,7 +3,7 @@
 var searchArticles = require('../src/search_articles');
 
 var query = {
-  "searchString": "vivo",
+  "searchString": "mouse",
   "filters": {
     // "subjects": ["Cell biology"],
     "organisms": ["Mouse"]

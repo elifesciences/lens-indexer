@@ -9,7 +9,12 @@ var searchArticles = require("./search_articles");
 
 queries.findDocumentsWithContent = function(query, cb) {
   var searchQuery = JSON.parse(query.searchQuery);
-  searchArticles(searchQuery, cb);
+  console.log('#####', searchQuery);
+
+  searchArticles({
+    searchString: searchQuery.searchStr,
+    filters: searchQuery.filters
+  }, cb);
 };
 
 queries.getDocumentMetaById = function(id) {

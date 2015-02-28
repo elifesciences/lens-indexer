@@ -85,17 +85,21 @@ var searchArticles = function(options, cb) {
         }
       },
       "aggs": {
-        "article_types": {
-          "terms" : { "field" : "article_type" }
-        },
+
         "subjects" : {
-          "terms" : { "field" : "subjects" }
+          "terms" : { "field" : "subjects", "size": 100 }
         },
-        "keywords" : {
-          "terms" : { "field" : "keywords" }
+        "article_type": {
+          "terms" : { "field" : "article_type", "size": 100 }
+        },
+        // "keywords" : {
+        //   "terms" : { "field" : "keywords" }
+        // },
+        "authors": {
+          "terms" : { "field" : "authors", "size": 30 }
         },
         "organisms": {
-          "terms" : { "field" : "organisms" }
+          "terms" : { "field" : "organisms", "size": 10 }
         }
       }
     }
