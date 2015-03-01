@@ -105,6 +105,11 @@ var searchArticles = function(options, cb) {
     }
   };
 
+
+  if (!options.searchString) {
+    query.body.sort = [{ "published_on": { "order": "desc" } }]
+  }
+
   console.log("################################");
   console.log(JSON.stringify(query, null, 2));
   console.log("################################");
