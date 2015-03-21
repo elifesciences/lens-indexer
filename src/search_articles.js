@@ -20,6 +20,7 @@ var searchArticles = function(options, cb) {
                 "type": "fragment",
                 "score_mode" : "sum",
                 "query": {
+                  
                   "match": {
                     "content": { "query": searchString, "minimum_should_match": "75%" }
                   }
@@ -29,6 +30,25 @@ var searchArticles = function(options, cb) {
             {
               "match": {
                   "title": { "query": searchString, "minimum_should_match": "75%", "boost": 3.0 }
+              }
+            },
+            {
+              "match": {
+                  // Looks like minimum_should_match=25% makes search string case-insensitive
+                  // However when applied to title, it doesn't give us matches.
+                  "authors_string": { "query": searchString, "minimum_should_match": "25%", "boost": 3.0 }
+              }
+            },
+            // Search by author impact statement
+            {
+              "match": {
+                  "intro": { "query": searchString, "minimum_should_match": "25%", "boost": 2.0 }
+              }
+            },
+            // Match of DOI
+            {
+              "match" : {
+                  "doi" : searchString
               }
             }
           ]
@@ -50,7 +70,8 @@ var searchArticles = function(options, cb) {
     if (matchTerms.length > 0) {
       return {
         "bool": {
-          "should": [
+          // TODO turn into must ?
+          "must": [ 
             matchTerms
           ]
         }
@@ -81,7 +102,9 @@ var searchArticles = function(options, cb) {
         "fields": {
           // NOTE: "number_of_fragments" : 0 is necessary to suppress lucene's automatic truncation of fragments
           "title": { "number_of_fragments" : 0 },
-          "intro": { "number_of_fragments" : 0 }
+          "authors_string": { "number_of_fragments" : 0 },
+          "intro": { "number_of_fragments" : 0 },
+          "doi": { "number_of_fragments" : 0 },
         }
       },
       "aggs": {

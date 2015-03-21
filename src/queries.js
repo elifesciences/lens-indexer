@@ -4,8 +4,36 @@ var elasticsearch = require('elasticsearch');
 var config = require("../config");
 var client = new elasticsearch.Client(_.clone(config));
 var queries = {};
+var async = require('async');
 
 var searchArticles = require("./search_articles");
+
+queries.findDocumentsWithContentAdvanced = function(query, cb) {
+  var searchQuery = JSON.parse(query.searchQuery);
+  console.log('#####', searchQuery);
+
+  searchArticles({
+    searchString: searchQuery.searchStr,
+    filters: searchQuery.filters
+  }, function(err, result) {
+
+    if (err) return cb(err);
+    // assuming openFiles is an array of file names 
+    async.each(result.hits.hits, function(doc, cb) {
+      queries.getDocumentPreview({
+        documentId: doc._id,
+        searchString: searchQuery.searchStr
+      }, function(err, docPreview) {
+        if (err) return cb(err);
+        doc.fragments = docPreview.fragments;
+        cb(err);
+      });
+    }, function() {
+      cb(null, result);
+    });
+  });
+};
+
 
 queries.findDocumentsWithContent = function(query, cb) {
   var searchQuery = JSON.parse(query.searchQuery);
@@ -81,6 +109,7 @@ queries.findDocumentFragmentsWithContent = function(documentId, searchString) {
     index: 'articles',
     type: 'fragment',
     body: {
+      "size": 2,
       "query": {
         "bool": {
           "must": [

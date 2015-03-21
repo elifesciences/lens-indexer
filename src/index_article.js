@@ -32,21 +32,34 @@ function indexArticle(client, article) {
   // at all). The abstract is not available neither, as the converter does not
   // preserve that semantics. Furthermore it would be necessary to 'configure'
   // which facets should be considered (and potentially, how to extract them)
+
   var xmlAdapter = new XmlAdapterForXmlDomXPath();
   var htmlDocument = xmlAdapter.parseString('<html></html>');
+
+
+  var authorNames = _.map(documentNode.getAuthors(), function(author) {
+    return author.name;
+  });
+
+  // HACK we append author data to the document title
+  var hiddenAuthorString = "<span>"+authorNames.join(", ")+"</span>";
+
   var shortData = {
-    "title": xmlAdapter.getInnerHtml(documentNode.propertyToHtml(htmlDocument, 'title')),
-    "authors": _.map(documentNode.getAuthors(), function(author) {
-      return author.name;
-    }),
-    "intro": "TODO: this should be a short intro which ATM is not extracted.", // prerendered html
+    "title": xmlAdapter.getInnerHtml(documentNode.propertyToHtml(htmlDocument, 'title')), // +hiddenAuthorString
+    "authors": authorNames,
+    "authors_string": authorNames.join(", "),
+    "intro": documentNode.impact_statement, // prerendered html
     // facets
+    "doi": doi,
     "published_on": publicationInfo.published_on,
     "article_type": publicationInfo.article_type || "",
     "subjects": publicationInfo.subjects || [],
     "organisms": publicationInfo.research_organisms || [],
     "keywords": publicationInfo.keywords || []
   };
+
+  console.log('shortdata', shortData);
+
   htmlDocument = null;
   xmlAdapter = null;
   var shortEntry = {

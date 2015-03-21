@@ -12,8 +12,10 @@ app.use(function(req, res, next) {
   next();
 });
 
+// Full search (including fragments)
+
 app.get('/search', function (req, res) {
-  queries.findDocumentsWithContent(req.query, function(error, result) {
+  queries.findDocumentsWithContentAdvanced(req.query, function(error, result) {
     if (error) {
       res.send('500', error.message);
     } else {
@@ -21,6 +23,16 @@ app.get('/search', function (req, res) {
     }
   });
 });
+
+// app.get('/search', function (req, res) {
+//   queries.findDocumentsWithContent(req.query, function(error, result) {
+//     if (error) {
+//       res.send('500', error.message);
+//     } else {
+//       res.send(result);
+//     }
+//   });
+// });
 
 app.get('/search/document/', function (req, res) {
   queries.getDocumentPreview({

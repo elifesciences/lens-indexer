@@ -9,6 +9,7 @@
   "dependencies": {
     "elasticsearch": "^3.0.0",
     "express": "^4.10.2",
+    "async": "0.9.0",
     "lens-article": "git+https://github.com/elifesciences/lens-article.git#master",
     "lens-converter": "git+https://github.com/elifesciences/lens-converter.git#master",
     "request": "^2.48.0",
