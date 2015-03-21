@@ -58,8 +58,6 @@ function indexArticle(client, article) {
     "keywords": publicationInfo.keywords || []
   };
 
-  console.log('shortdata', shortData);
-
   htmlDocument = null;
   xmlAdapter = null;
   var shortEntry = {
