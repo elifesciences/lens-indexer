@@ -16,15 +16,6 @@ function indexArticle(client, article) {
   // record all entries and call ES later, so that we only index if everything goes well
   var indexEntries = [];
 
-  // add the article as a whole
-  var articleEntry = {
-    index: 'articles',
-    type: 'json',
-    id: doi,
-    body: article
-  };
-  indexEntries.push(articleEntry);
-
   // TODO: continue here. We need to provide a good trade-off
   // between structured and prerendered data. E.g., it would be good
   // to prerender primitive annotations. Also we need to come up with a
