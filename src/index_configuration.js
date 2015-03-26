@@ -29,6 +29,7 @@ module.exports = {
          // authors for exact full-text search (no partial matches)
          // "authors": { "type": "string", "index" : "analyzed", "analyzer": "standard" },
          "authors": { "type": "string", "index" : "not_analyzed"},
+         "authors_string": { "type": "string", "index" : "analyzed", "analyzer": "standard" },
          // The rest are facets which are used for strict match queries or filtering only
          "published_on": { "type": "string", "index" : "not_analyzed"},
          "article_type": { "type": "string", "index" : "not_analyzed"},
