@@ -24,10 +24,16 @@ function step() {
   console.log("Processing %s...", url);
   request(url, function (error, response, body) {
 
-    if (error || response.statusCode != 200) {
+    if (url === "https://s3.amazonaws.com/elife-cdn/elife-articles/00808/elife00808.xml") {
+      console.error("skipping problematic article 00808");
+      step();
+    } else if (error || response.statusCode != 200) {
       console.error("... could not load data.");
       step();
     } else {
+
+
+
       var xmlData = body;
       console.info("... converting");
       var article = convert(xmlData);
