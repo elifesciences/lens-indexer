@@ -7,8 +7,10 @@ The Lens-Indexer represents a lookup service for Lens articles, built on top of 
 
 ## Demo Service
 
-A demo instance of the service is running on https://elife-lens-indexer.herokuapp.com/. It uses an ElasticSearch instance running on https://7zepvxjw:sqnl0xez3nmesypj@rowan-7428284.us-east-1.bonsai.io.
-The index is seeded with the elife corpus found at https://s3.amazonaws.com/elife-cdn/
+A demo instance of the service is running on https://elife-lens-indexer.herokuapp.com/. It uses an ElasticSearch instance 
+running hosted on qbox.io.
+
+The index is seeded with the elife corpus found at http://s3.amazonaws.com/elife-cdn/xml_files.txt
 
 The index has the following structure
 
@@ -60,20 +62,6 @@ The index has the following structure
 ```
 
 > Note: there is one index called `articles` having two types of entities, `article` and `fragment`, where a `fragment` is modelled as a child of an `article`.
-
-
-It is possible to query the index directly using `curl`, such as:
-
-```
-curl https://7zepvxjw:sqnl0xez3nmesypj@rowan-7428284.us-east-1.bonsai.io/articles/fragment/_search -d '
-{
- "query": {
-    "match": {
-      "content": "mice"
-    }
-  }
-}'
-```
 
 ## Local Installation
 
