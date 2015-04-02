@@ -7,8 +7,9 @@ The Lens-Indexer represents a lookup service for Lens articles, built on top of 
 
 ## Demo Service
 
-A demo instance of the service is running on https://elife-lens-indexer.herokuapp.com/. It uses an ElasticSearch instance 
-running hosted on qbox.io.
+A demo instance of the service is running on heroku.com. It uses an ElasticSearch instance hosted on qbox.io. Here's a sample search result:
+
+https://elife-lens-indexer.herokuapp.com/search?searchQuery=%7B%22searchStr%22%3A%22mice%22%2C%22filters%22%3A%7B%7D%7D
 
 The index is seeded with the elife corpus found at http://s3.amazonaws.com/elife-cdn/xml_files.txt
 
