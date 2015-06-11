@@ -100,7 +100,7 @@ $ PORT=4002 node server.js
 
 Point your browser to the following url to test:
 
-http://localhost:4002/search?searchQuery=%7B%22searchStr%22%3A%22mouse%22%2C%22filters%22%3A%7B%7D%7D
+[http://localhost:4002/search?searchQuery=%7B%22searchStr%22%3A%22mouse%22%2C%22filters%22%3A%7B%7D%7D](http://localhost:4002/search?searchQuery=%7B%22searchStr%22%3A%22mouse%22%2C%22filters%22%3A%7B%7D%7D)
 
 ## Index structure
 
