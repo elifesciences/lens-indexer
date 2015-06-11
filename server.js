@@ -24,16 +24,6 @@ app.get('/search', function (req, res) {
   });
 });
 
-// app.get('/search', function (req, res) {
-//   queries.findDocumentsWithContent(req.query, function(error, result) {
-//     if (error) {
-//       res.send('500', error.message);
-//     } else {
-//       res.send(result);
-//     }
-//   });
-// });
-
 app.get('/search/document/', function (req, res) {
   queries.getDocumentPreview({
     documentId: req.query.documentId,

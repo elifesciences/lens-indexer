@@ -1,19 +1,110 @@
-
 # Lens Indexer
 
 The Lens-Indexer represents a lookup service for Lens articles, built on top of an ElasticSearch index, and provides full-text search on article meta data (title, abstract, authors, keywords, etc.) as well as the content of article fragments.
 
-> NOTE: this is work in progress and not yet feature complete.
+> NOTE: this is work in progress and should be considered experimental
+
 
 ## Demo Service
 
 A demo instance of the service is running on heroku.com. It uses an ElasticSearch instance hosted on qbox.io. Here's a sample search result:
 
-https://elife-lens-indexer.herokuapp.com/search?searchQuery=%7B%22searchStr%22%3A%22mice%22%2C%22filters%22%3A%7B%7D%7D
+https://elife-lens-indexer.herokuapp.com/search?searchQuery=%7B%22searchStr%22%3A%22mouse%22%2C%22filters%22%3A%7B%7D%7D
 
-The index is seeded with the elife corpus found at http://s3.amazonaws.com/elife-cdn/xml_files.txt
+The index is seeded with the eLife corpus found at http://s3.amazonaws.com/elife-cdn/xml_files.txt
 
-The index has the following structure
+## Installation
+
+### Prerequisites
+
+- Node.js 0.10.x
+- ElasticSearch 1.4.x
+
+We use a Vagrant setup for installing and pulling up a virtual machine ( see `Vagrantfile`), however you can also study the `provision.sh` file to use a custom setup.
+
+### Setup
+
+Clone the repo:
+
+```bash
+https://github.com/elifesciences/lens-indexer.git
+```
+
+Pull in dependencies using the Substance Screwdriver:
+
+```bash
+cd lens-indexer
+substance --update
+```
+
+Adjust `config.js` to point to ElasticSearch host:
+
+```js
+var config = {
+  host: 'https://your-id.qbox.io'
+};
+```
+
+## Seeding
+
+We use individual scripts to seed the Elastic Search instance. You can combine them individually, according to your usecase. For instance if you want to update the index without resetting the index, just leave out step `01`.
+
+**01 Configure Index** 
+
+```bash
+$ scripts/01_configure_index.js
+```
+
+This sets up and resets the article and fragment indexes.
+
+**02 Create list of urls** 
+
+```bash
+$ scripts/02_create_list_of_urls.js
+```
+
+Takes the list of XML files from: http://s3.amazonaws.com/elife-cdn/xml_files.txt and stores it in `data/filelist.js`.
+
+**03 Fetch XML**
+
+```bash
+$ scripts/03_fetch_xml.js
+```
+
+Download latest versions of XML files according to `data/filelist.js`.
+
+**04 Convert**
+
+```bash
+$ scripts/04_convert.js
+```
+
+Converts XML files to Lens JSON using the Lens converter.
+
+*Note: We needed to port the converter to run server-side. Since this code is experimental and not in sync with the official Lens converter, there may be slighly different resulting JSON files.*
+
+**05 Seed Index**
+
+This is the critical part. Buy
+
+### Run
+
+After seeding you can run the indexer.
+
+
+```bash
+$ PORT=4002 node server.js
+```
+
+Point your browser to the following url to test:
+
+http://localhost:4002/search?searchQuery=%7B%22searchStr%22%3A%22mouse%22%2C%22filters%22%3A%7B%7D%7D
+
+
+<!--
+## Index structure
+
+Our index has the following structure
 
 ```
 "settings": {
@@ -64,6 +155,4 @@ The index has the following structure
 
 > Note: there is one index called `articles` having two types of entities, `article` and `fragment`, where a `fragment` is modelled as a child of an `article`.
 
-## Local Installation
-
-We use a Vagrant setup for installing for pulling up a virtual machine ( see `Vagrantfile`), however you can also study the `provision.sh` file to use a custom setup.
+-->
