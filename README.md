@@ -88,12 +88,11 @@ Converts XML files to Lens JSON using the Lens converter.
 $ scripts/05_seed_index.js
 ```
 
-This is the part where the ES index is actually updated.
+This is the part where the ES index is actually updated. If you are seeding a lot of documents make sure your ElasticSearch instance has enough memory. We were running into those issues several time during our testing phase.
 
 ### Run
 
-After seeding you can run the indexer.
-
+After seeding you can run the indexer API.
 
 ```bash
 $ PORT=4002 node server.js
@@ -140,7 +139,7 @@ The index has the following structure
      "article_type": { "type": "string", "index" : "not_analyzed"},
      "subjects": { "type": "string", "index" : "not_analyzed"},
      "organisms": { "type": "string", "index" : "not_analyzed"}
-   }
+    }
   },
   "fragment": {
     "_parent": {"type": "article"},
