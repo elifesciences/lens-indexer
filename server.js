@@ -37,13 +37,6 @@ app.get('/search/document/', function (req, res) {
   });
 });
 
-app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/index.html');
-});
-
-app.post('/', function (req, res) {
-  res.send(404);
-});
 
 app.use(express.static(__dirname));
 
