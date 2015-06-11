@@ -8,6 +8,13 @@ var fs = require('fs');
 var idx = 0;
 var errors = [];
 
+
+var xmlDir = path.join(__dirname, "..", "data", "xml");
+if (!fs.existsSync(xmlDir)) {
+  console.log('creating data/xml.....');
+  fs.mkdirSync(xmlDir);
+}
+
 function step(cb) {
   if (idx >= listOfUrls.length) {
     console.error("Done.");

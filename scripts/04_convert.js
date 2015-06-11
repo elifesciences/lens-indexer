@@ -5,6 +5,12 @@ var path = require('path');
 var fs = require('fs');
 var convertArticle = require('../src/convert');
 
+var jsonDir = path.join(__dirname, "..", "data", "json");
+if (!fs.existsSync(jsonDir)) {
+  console.log('creating data/json.....');
+  fs.mkdirSync(jsonDir);
+}
+
 for (var i = 0; i < listOfUrls.length; i++) {
   var url = listOfUrls[i];
   var xmlFile = path.join(__dirname, "..", "data", "xml", path.basename(url));
