@@ -19,14 +19,14 @@ The index is seeded with the eLife corpus found at http://s3.amazonaws.com/elife
 - Node.js 0.10.x
 - ElasticSearch 1.4.x
 
-We use a Vagrant setup for installing and pulling up a virtual machine ( see `Vagrantfile`). However you can also study the `provision.sh` file to use a custom setup.
+To simplify setup you can pull a virtual machine using Vagrant ( see `Vagrantfile`). However you can also study the `provision.sh` file to use a custom setup.
 
 ### Setup
 
 Clone the repo:
 
 ```bash
-https://github.com/elifesciences/lens-indexer.git
+git clone https://github.com/elifesciences/lens-indexer.git
 ```
 
 Pull in dependencies using the Substance Screwdriver:
@@ -84,7 +84,11 @@ Converts XML files to Lens JSON using the Lens converter.
 
 **05 Seed Index**
 
-This is the critical part. Buy
+```bash
+$ scripts/05_seed_index.js
+```
+
+This is the part where the ES index is actually updated.
 
 ### Run
 
@@ -98,7 +102,6 @@ $ PORT=4002 node server.js
 Point your browser to the following url to test:
 
 http://localhost:4002/search?searchQuery=%7B%22searchStr%22%3A%22mouse%22%2C%22filters%22%3A%7B%7D%7D
-
 
 <!--
 ## Index structure
