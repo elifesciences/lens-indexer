@@ -19,7 +19,7 @@ The index is seeded with the eLife corpus found at http://s3.amazonaws.com/elife
 - Node.js 0.10.x
 - ElasticSearch 1.4.x
 
-To simplify setup you can pull a virtual machine using Vagrant ( see `Vagrantfile`). However you can also study the `provision.sh` file to use a custom setup.
+To simplify setup you can pull up a virtual machine using Vagrant ( see `Vagrantfile`). However since the setup is so simply you may just want to `provision.sh` to make your own setup.
 
 ### Setup
 
@@ -48,7 +48,7 @@ var config = {
 
 We use individual scripts to seed the Elastic Search instance. You can combine them individually, according to your usecase. For instance if you want to update the index without resetting the index, just leave out step `01`.
 
-**01 Configure Index** 
+**01 Configure Index**
 
 ```bash
 $ scripts/01_configure_index.js
@@ -56,7 +56,7 @@ $ scripts/01_configure_index.js
 
 This sets up and resets the article and fragment indexes.
 
-**02 Create list of urls** 
+**02 Create list of urls**
 
 ```bash
 $ scripts/02_create_list_of_urls.js
