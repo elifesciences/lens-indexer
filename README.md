@@ -19,7 +19,7 @@ The index is seeded with the eLife corpus found at http://s3.amazonaws.com/elife
 - Node.js 0.10.x
 - ElasticSearch 1.4.x
 
-To simplify setup you can pull up a virtual machine using Vagrant ( see `Vagrantfile`). However since the setup is so simply you may just want to `provision.sh` to make your own setup.
+To simplify setup you can pull up a virtual machine using Vagrant ( see `Vagrantfile`). However since the setup is so simply you may just want to inspect `provision.sh` to derive your own setup.
 
 ### Setup
 
