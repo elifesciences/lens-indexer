@@ -103,10 +103,9 @@ Point your browser to the following url to test:
 
 http://localhost:4002/search?searchQuery=%7B%22searchStr%22%3A%22mouse%22%2C%22filters%22%3A%7B%7D%7D
 
-<!--
 ## Index structure
 
-Our index has the following structure
+The index has the following structure
 
 ```
 "settings": {
@@ -156,5 +155,3 @@ Our index has the following structure
 ```
 
 > Note: there is one index called `articles` having two types of entities, `article` and `fragment`, where a `fragment` is modelled as a child of an `article`.
-
--->
