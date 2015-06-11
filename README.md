@@ -29,11 +29,11 @@ Clone the repo:
 git clone https://github.com/elifesciences/lens-indexer.git
 ```
 
-Pull in dependencies using the Substance Screwdriver:
+Pull in dependencies using npm:
 
 ```bash
 cd lens-indexer
-substance --update
+npm install
 ```
 
 Adjust `config.js` to point to ElasticSearch host:
