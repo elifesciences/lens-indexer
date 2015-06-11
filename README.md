@@ -2,16 +2,15 @@
 
 The Lens-Indexer represents a lookup service for Lens articles, built on top of an ElasticSearch index, and provides full-text search on article meta data (title, abstract, authors, keywords, etc.) as well as the content of article fragments.
 
-> NOTE: this is work in progress and should be considered experimental
-
+> Note: this is work in progress and should be considered experimental
 
 ## Demo Service
 
-A demo instance of the service is running on heroku.com. It uses an ElasticSearch instance hosted on qbox.io. Here's a sample search result:
+A demo instance of the service is running on heroku.com. It uses an ElasticSearch instance hosted on qbox.io. Click the following link to view a sample search result:
 
 https://elife-lens-indexer.herokuapp.com/search?searchQuery=%7B%22searchStr%22%3A%22mouse%22%2C%22filters%22%3A%7B%7D%7D
 
-The index is seeded with the eLife corpus found at http://s3.amazonaws.com/elife-cdn/xml_files.txt
+The index is seeded with the eLife corpus found at http://s3.amazonaws.com/elife-cdn/xml_files.txt.
 
 ## Installation
 
